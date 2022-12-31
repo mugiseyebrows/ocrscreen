@@ -7,7 +7,7 @@ with open('README.md', encoding='utf-8') as f:
 setup(
     packages = find_packages(),
     name = 'ocrscreen',
-    version='0.0.1',
+    version='0.0.2',
     author="Stanislav Doronin",
     author_email="mugisbrows@gmail.com",
     url='https://github.com/mugiseyebrows/ocrscreen',
