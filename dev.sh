@@ -1,0 +1,1 @@
+onchange ocrscreen -i "*.pyx" --beep -- python setup.py build_ext --inplace
