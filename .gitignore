@@ -1,0 +1,7 @@
+dist/
+*.so
+__pycache__/
+ocrscreen/core.c
+build/
+.vscode/
+ocrscreen.egg-info/
