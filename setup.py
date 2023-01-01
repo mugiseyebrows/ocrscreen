@@ -13,7 +13,7 @@ ext_modules = cythonize(extensions, language_level = "3")
 setup(
     packages = find_packages(),
     name = 'ocrscreen',
-    version='0.0.2',
+    version='0.0.3',
     author="Stanislav Doronin",
     author_email="mugisbrows@gmail.com",
     url='https://github.com/mugiseyebrows/ocrscreen',
