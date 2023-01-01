@@ -5,15 +5,14 @@ import os
 with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
-base = os.path.dirname(__file__)
-sourcefiles = [os.path.join(base, 'ocrscreen', n) for n in os.listdir('ocrscreen') if os.path.splitext(n)[1] in ['.pyx']]
+sourcefiles = ["ocrscreen/core.pyx"]
 extensions = [Extension("ocrscreen.core", sourcefiles)]
 ext_modules = cythonize(extensions, language_level = "3")
 
 setup(
     packages = find_packages(),
     name = 'ocrscreen',
-    version='0.0.3',
+    version='0.0.4',
     author="Stanislav Doronin",
     author_email="mugisbrows@gmail.com",
     url='https://github.com/mugiseyebrows/ocrscreen',
@@ -26,5 +25,6 @@ setup(
             'ocrscreen-recognize = ocrscreen.recognize:main' 
         ]
     },
-    ext_modules = ext_modules
+    ext_modules = ext_modules,
+    package_data = {'ocrscreen.core': ["ocrscreen/core.c"]}
 )
