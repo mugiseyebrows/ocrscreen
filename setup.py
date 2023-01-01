@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages, Extension
 from Cython.Build import cythonize
-import os
 
 with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
@@ -12,7 +11,7 @@ ext_modules = cythonize(extensions, language_level = "3")
 setup(
     packages = find_packages(),
     name = 'ocrscreen',
-    version='0.0.4',
+    version='0.0.5',
     author="Stanislav Doronin",
     author_email="mugisbrows@gmail.com",
     url='https://github.com/mugiseyebrows/ocrscreen',
@@ -26,5 +25,4 @@ setup(
         ]
     },
     ext_modules = ext_modules,
-    package_data = {'ocrscreen.core': ["ocrscreen/core.c"]}
 )
