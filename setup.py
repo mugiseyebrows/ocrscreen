@@ -6,7 +6,7 @@ with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
 base = os.path.dirname(__file__)
-sourcefiles = [os.path.join(base, 'ocrscreen', n) for n in os.listdir('ocrscreen') if os.path.splitext(n)[1] in ['.pyx', '.c']]
+sourcefiles = [os.path.join(base, 'ocrscreen', n) for n in os.listdir('ocrscreen') if os.path.splitext(n)[1] in ['.pyx']]
 extensions = [Extension("ocrscreen.core", sourcefiles)]
 ext_modules = cythonize(extensions, language_level = "3")
 

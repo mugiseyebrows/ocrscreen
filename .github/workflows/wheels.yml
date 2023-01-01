@@ -17,7 +17,7 @@ jobs:
         python-version: "3.11"
     - name: Install twine
       run: python -m pip install setuptools wheel Cython twine
-    - name: 
+    - name: Build source distribution
       run: python setup.py sdist 
     - name: Run docker build
       run: |
