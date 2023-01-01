@@ -3,12 +3,52 @@ name: Wheel build
 on: [push]
 
 jobs:
-  build:
+  linux:
+    runs-on: 'ubuntu-22.04'
+    env:
+      TWINE_USERNAME: mugiseyebrows
+      TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    - name: Install twine
+      run: python -m pip install setuptools wheel Cython twine
+    - name: 
+      run: python setup.py sdist 
+    - name: Run docker build
+      run: |
+        sudo docker build -t wheelbuild .
+        sudo docker run -v `pwd`/wheelhouse:/usr/src/app/wheelhouse wheelbuild
+    - name: Upload wheels
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels-manylinux
+        path: |
+          wheelhouse/ocrscreen-*.whl
+          dist/ocrscreen-*.gz
+        if-no-files-found: ignore
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          wheelhouse/ocrscreen-*.whl
+          dist/ocrscreen-*.gz
+    - name: Upload yo pypi
+      run: twine upload wheelhouse/ocrscreen-*.whl dist/ocrscreen-*.gz
+      if: startsWith(github.ref, 'refs/tags/')
+  windows:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
-        os: ['windows-2019', 'ubuntu-22.04', 'macos-12']
-    runs-on: ${{ matrix.os }}
+    runs-on: 'windows-2019'
+    env:
+      TWINE_USERNAME: mugiseyebrows
+      TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -17,13 +57,13 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install setuptools
-      run: python -m pip install setuptools wheel Cython
+      run: python -m pip install setuptools wheel Cython twine
     - name: Build wheel
       run: python setup.py bdist_wheel
     - name: Upload wheels
       uses: actions/upload-artifact@v3
       with:
-        name: wheels-${{ matrix.os }}
+        name: wheels-windows
         path: dist/ocrscreen-*.whl
         if-no-files-found: ignore
     - name: Release
@@ -31,4 +71,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: dist/ocrscreen-*.whl
+    - name: Upload yo pypi
+      run: twine upload dist/ocrscreen-*.whl
+      if: startsWith(github.ref, 'refs/tags/')
     
